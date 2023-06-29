@@ -13,9 +13,6 @@ hamta_data_FK <- function(webbadresser = "https://www.forsakringskassan.se/fk_ap
   # Läser in nödvändiga bibliotek med pacman
   if (!require("pacman")) install.packages("pacman")
   p_load(janitor,
-         keyring,
-         httr,
-         rKolada,
          openxlsx,
          rio,
          tidyverse)
