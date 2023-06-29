@@ -1,12 +1,14 @@
-# Funktion som tar hem data från Försäkringskassans öppna data. Kräver dels webbadresser, dels de namn man vill att datasetten skall ha 
-# Webbadresser finns här: https://www.dataportal.se, välj organisation Försäkringskassan.
-# När du har hittat rätt data, klicka på länk och högerklicka sedan på ladda ned data och välj kopiera länkadress.
-# För Antal barn vars föräldrar har vabbat ser länken ut som följer: https://www.forsakringskassan.se/fk_apps/MEKAREST/public/v1/tfp-barn/TFPVabBarnAlder.xlsx
 
-# Funktionen returnerar en lista med dataset som sedan med fördel kan sparas till Excel. Notera att antalet webbadresser och antalet namn på dataset måste var a lika många, annars avslutas funktion
 
 hamta_data_FK <- function(webbadresser = "https://www.forsakringskassan.se/fk_apps/MEKAREST/public/v1/tfp-barn/TFPVabBarnAlder.xlsx)",
                           dataset_namn = c("Vab_antal_barn")){
+  
+  # Funktion som tar hem data från Försäkringskassans öppna data. Kräver dels webbadresser, dels de namn man vill att datasetten skall ha 
+  # Webbadresser finns här: https://www.dataportal.se, välj organisation Försäkringskassan.
+  # När du har hittat rätt data, klicka på länk och högerklicka sedan på ladda ned data och välj kopiera länkadress.
+  # För Antal barn vars föräldrar har vabbat ser länken ut som följer: https://www.forsakringskassan.se/fk_apps/MEKAREST/public/v1/tfp-barn/TFPVabBarnAlder.xlsx
+  
+  # Funktionen returnerar en lista med dataset som sedan med fördel kan sparas till Excel. Notera att antalet webbadresser och antalet namn på dataset måste var a lika många, annars avslutas funktion
                             
   if(length(webbadresser) != length(dataset_namn)){
     print("Felaktigt val av namn! Måste vara lika många som webbadresser")
