@@ -9,6 +9,9 @@ hamta_data_FK <- function(webbadresser = "https://www.forsakringskassan.se/fk_ap
   # För Antal barn vars föräldrar har vabbat ser länken ut som följer: https://www.forsakringskassan.se/fk_apps/MEKAREST/public/v1/tfp-barn/TFPVabBarnAlder.xlsx
   
   # Funktionen returnerar en lista med dataset som sedan med fördel kan sparas till Excel. Notera att antalet webbadresser och antalet namn på dataset måste var a lika många, annars avslutas funktion
+  
+  
+  
                             
   if(length(webbadresser) != length(dataset_namn)){
     print("Felaktigt val av namn! Måste vara lika många som webbadresser")
