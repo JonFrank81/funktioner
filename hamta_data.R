@@ -1,7 +1,8 @@
 
 
 hamta_data_FK <- function(webbadresser = "https://www.forsakringskassan.se/fk_apps/MEKAREST/public/v1/tfp-barn/TFPVabBarnAlder.xlsx)",
-                          dataset_namn = c("Vab_antal_barn")){
+                          dataset_namn = c("Vab_antal_barn"),
+                          region_vekt = "20" ){
   
   # Funktion som tar hem data från Försäkringskassans öppna data på läns (och kommunnivå). Kräver dels dels region, dels webbadresser och dels de namn man vill att datasetten skall ha 
   # Webbadresser finns här: https://www.dataportal.se, välj organisation Försäkringskassan.
