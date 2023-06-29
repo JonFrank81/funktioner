@@ -10,7 +10,15 @@ hamta_data_FK <- function(webbadresser = "https://www.forsakringskassan.se/fk_ap
   
   # Funktionen returnerar en lista med dataset som sedan med fördel kan sparas till Excel. Notera att antalet webbadresser och antalet namn på dataset måste var a lika många, annars avslutas funktion
   
-  
+  # Läser in nödvändiga bibliotek med pacman
+  if (!require("pacman")) install.packages("pacman")
+  p_load(janitor,
+         keyring,
+         httr,
+         rKolada,
+         openxlsx,
+         rio,
+         tidyverse)
   
                             
   if(length(webbadresser) != length(dataset_namn)){
