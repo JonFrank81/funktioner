@@ -3,7 +3,7 @@ skapa_kortnamn_lan_alternativ <- function(lansnamn, byt_ut_riket_mot_sverige = F
   nyttnamn <- NA
   for (elem in 1:length(lansnamn)){
     if (substr(lansnamn[elem], nchar(lansnamn[elem])-3, nchar(lansnamn[elem]))==" län") nyttnamn[elem] <- substr(lansnamn[elem],1, nchar(lansnamn[elem])-4) else nyttnamn[elem] <- lansnamn[elem]
-    if (substr(nyttnamn[elem], nchar(nyttnamn[elem]),nchar(nyttnamn[elem]))=="s")
+    if (substr(nyttnamn[elem], nchar(nyttnamn[elem]),nchar(nyttnamn[elem]))=="s") nyttnamn[elem] <- substr(nyttnamn[elem],1,nchar(nyttnamn[elem])-1)
     if (byt_ut_riket_mot_sverige == TRUE) if (lansnamn[elem] == "Riket") nyttnamn[elem] <- "Sverige"
   }
   return(nyttnamn)
