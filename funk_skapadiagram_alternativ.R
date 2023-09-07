@@ -13,7 +13,9 @@ skapa_linjediagram_ny <- function(df = data.frame(),
                                   x_variabel = "Period",
                                   y_variabel = "KPIF,.månadsförändring,.1987=100",
                                   linje_typ = "solid", # Som standard. Övriga val: blank,dashed,dotted,dotdash,longdash,twodash,
-                                  farg = c("red"),
+                                  linje_farg = c("red"),
+                                  bakgrund_farg = "#efefef",
+                                  omgivning_farg = "#efefef",
                                   X_vertikal_justering = 0.5,
                                   X_horisontell_justering = 0.5,
                                   X_rotera_text = 90, # I grader, 0 är standard,
@@ -79,13 +81,13 @@ skapa_linjediagram_ny <- function(df = data.frame(),
   #"#efefef"
   
   figur <- ggplot(df,aes({{x_var}},{{y_var}}))+
-    geom_line(group=1,linetype=linje_typ,color = farg)+
+    geom_line(group=1,linetype=linje_typ,color = linje_farg)+
     ggtitle(titel)+
     theme_set(tema)+
     theme(plot.title = element_text(hjust = titel_justering),
           axis.text.x=element_text(angle = X_rotera_text, vjust = X_vertikal_justering,hjust = X_horisontell_justering),
           axis.text.y=element_text(angle = Y_rotera_text, vjust =Y_vertikal_justering,hjust = Y_horisontell_justering),
-          panel.background = element_rect(fill = "#efefef",colour="red"),
+          panel.background = element_rect(fill = bakgrund_farg,colour="red"),
           plot.background = element_rect(fill = "#efefef"))+ # region outside plot)
     labs(y = y_axel_namn, x = x_axel_namn)
   
