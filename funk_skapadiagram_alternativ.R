@@ -1,8 +1,9 @@
+
 skapa_linjediagram_ny(df <- KPI_df %>% filter(ar>"2021"),
                       linje_typ = "solid",
                       X_rotera_text =45,
                       x_axel_namn = "",
-                      valt_tema = "bw",
+                      valt_tema = "void",
                       titel= "Inflation",
                       titel_justering = 0.5,
                       plotly_diagram = TRUE)
@@ -75,14 +76,17 @@ skapa_linjediagram_ny <- function(df = data.frame(),
   x_var = as.name(x_variabel)
   y_var = as.name(y_variabel)
   
-  figur <- df %>%
-    ggplot(aes(x = !!x_var,!!y_var))+
+  #"#efefef"
+  
+  figur <- ggplot(df,aes({{x_var}},{{y_var}}))+
     geom_line(group=1,linetype=linje_typ,color = farg)+
     ggtitle(titel)+
     theme_set(tema)+
     theme(plot.title = element_text(hjust = titel_justering),
           axis.text.x=element_text(angle = X_rotera_text, vjust = X_vertikal_justering,hjust = X_horisontell_justering),
-          axis.text.y=element_text(angle = Y_rotera_text, vjust =Y_vertikal_justering,hjust = Y_horisontell_justering))+
+          axis.text.y=element_text(angle = Y_rotera_text, vjust =Y_vertikal_justering,hjust = Y_horisontell_justering),
+          panel.background = element_rect(fill = "#efefef",colour="red"),
+          plot.background = element_rect(fill = "#efefef"))+ # region outside plot)
     labs(y = y_axel_namn, x = x_axel_namn)
   
   
@@ -93,6 +97,8 @@ skapa_linjediagram_ny <- function(df = data.frame(),
   
   return(figur)
 }
+
+
 
 
 
