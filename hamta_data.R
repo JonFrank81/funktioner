@@ -78,7 +78,7 @@ hamta_data_TS <- function (returnera_lista = FALSE,
          tidyverse)
   
   # Skapar en tom dataframe
-  df <- data.frame(matrix(ncol = 5,nrow = 0))
+  df <- data.frame(matrix(ncol = 6,nrow = 0))
   colnames(df) <- c("Period_år","Period_månad","Flygplats","Inrikes_utrikes","ankomst_avgang","Passagerare")
   
   # Skapar en vektor med värden, där varje värde motsvarare ett år (det sista värdet i länken till CSV-filen)
@@ -124,7 +124,7 @@ hamta_data_TS <- function (returnera_lista = FALSE,
   
   flik_lista=lst("Årsdata" = df_ar,"Månadsdata" = df,"Sverige_utrikes" = df_Sverige_utrikes,"Sverige_inrikes" = df_Sverige_inrikes)
   
-  if(spara_till_Excel = TRUE) openxlsx::write.xlsx(flik_lista,paste0(mapp,filnamn))
+  if(spara_till_Excel == TRUE) write.xlsx(flik_lista,paste0(mapp,filnamn))
   
   if(returnera_lista == TRUE) return(flik_lista)
 }
