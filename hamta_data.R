@@ -61,5 +61,72 @@ hamta_data_FK <- function(webbadresser = "https://www.forsakringskassan.se/fk_ap
   return(flik_lista)
   
 }
+
+hamta_data_TS <- function (returnera_lista = FALSE,
+                           spara_till_Excel = TRUE,
+                           mapp = "G:/skript/jon/Slask/",
+                           filnamn = "flygstatistik.xlsx"){
+  
+  # Tar hem statistik för passagerare på flygplatser från Transportstyrelsen. Åren 2006 till senaste år.
+  # Uppdateras genom att lägga till ett år till längst upp i lisan år. Koden får man från:
+  # https://www.dataportal.se/sv/datasets/272_2057/flygplatsstatistik#ref=?p=1&q=transportstyrelsen&s=2&t=20&f=&rt=dataset%24esterms_IndependentDataService%24esterms_ServedByDataService&c=false
+  # Klicka på CSV, sedan högerklick på senaste år (exempelvis 2023.csv) och sedan spara länk. 
+  
+  # Läser in nödvändiga bibliotek med pacman
+  if (!require("pacman")) install.packages("pacman")
+  p_load(openxlsx
+         tidyverse)
+  
+  # Skapar en tom dataframe
+  df <- data.frame(matrix(ncol = 5,nrow = 0))
+  colnames(df) <- c("Period_år","Period_månad","Flygplats","Inrikes_utrikes","ankomst_avgang","Passagerare")
+  
+  # Skapar en vektor med värden, där varje värde motsvarare ett år (det sista värdet i länken till CSV-filen)
+  ar <- c("179",
+          "105",
+          as.character(93:78))
+  
+  # Loop som hämtar hem data
+  i=1
+  while(i<=length(ar)){
+    lank = paste0("https://transportstyrelsen.entryscape.net/store/7/resource/",ar[i])
+    df_temp <- read.csv2(lank,encoding="latin1" ) %>% 
+      filter(Rörelsesubklass...Subklass == "Passagerarflyg") %>% 
+      rename("Period_år" = Period...År,
+             "Period_månad" = Period...Månad,
+             "Flygplats" = Rapporterande.Flygplats...Namn,
+             "Inrikes_utrikes" = Grundpost.Flygplats...Inrikes.utrikes,
+             "ankomst_avgang" = Ankomst.avgång...Ankomst.avgång) %>%   
+      group_by(Period_år,Period_månad,Flygplats,Inrikes_utrikes,ankomst_avgang) %>% 
+      summarize("Passagerare" = sum(Kabinfaktorpassagerare))
+    print(unique(df_temp$Period_år))
+    i=i+1
+    df=rbind(df,df_temp)
+  }
+  # Tar bort tillfällig dataframe
+  rm(df_temp)
+  #Grupperar på årsnivå
+  df_ar <- df %>% 
+    group_by(Period_år,Flygplats,Inrikes_utrikes,ankomst_avgang) %>% 
+    summarize(Passagerare=sum(Passagerare))
+  
+  # Grupperar för utrikes och inrikes (i Sverige)
+  df_Sverige_utrikes <- df %>%
+    filter(Inrikes_utrikes == "Utrikes") %>% 
+    group_by(Period_år,Inrikes_utrikes,ankomst_avgang) %>% 
+    summarize(Passagerare=sum(Passagerare))
+  
+  # Inrikes, enbart avgående för att undvika dubbelräkning
+  df_Sverige_inrikes <- df %>%
+    filter(Inrikes_utrikes == "Inrikes",ankomst_avgang == "Avgång") %>% 
+    group_by(Period_år,Inrikes_utrikes,ankomst_avgang) %>% 
+    summarize(Passagerare=sum(Passagerare))
+  
+  flik_lista=lst("Årsdata" = df_ar,"Månadsdata" = df,"Sverige_utrikes" = df_Sverige_utrikes,"Sverige_inrikes" = df_Sverige_inrikes)
+  
+  if(spara_till_Excel = TRUE) openxlsx::write.xlsx(flik_lista,paste0(mapp,filnamn))
+  
+  if(returnera_lista == TRUE) return(flik_lista)
+}
                           
                           
