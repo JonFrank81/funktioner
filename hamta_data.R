@@ -74,7 +74,7 @@ hamta_data_TS <- function (returnera_lista = FALSE,
   
   # Läser in nödvändiga bibliotek med pacman
   if (!require("pacman")) install.packages("pacman")
-  p_load(openxlsx
+  p_load(openxlsx,
          tidyverse)
   
   # Skapar en tom dataframe
