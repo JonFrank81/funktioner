@@ -128,5 +128,16 @@ hamta_data_TS <- function (returnera_lista = FALSE,
   
   if(returnera_lista == TRUE) return(flik_lista)
 }
+
+hamta_data_regso <- function(region = "20",
+                               url = ""){
+  
+  source("G:/skript/func/func_API.R", encoding = "utf-8", echo = FALSE)
+  
+  retur <- pxvardelist(url,"Region") %>% 
+    filter(substr(.$kod,1,2) == region,substr(.$kod,5,5) == "R") 
+  
+  return(retur)
+}
                           
                           
