@@ -135,7 +135,8 @@ hamta_data_regso <- function(region = "20",
   source("G:/skript/func/func_API.R", encoding = "utf-8", echo = FALSE)
   
   retur <- pxvardelist(url,"Region") %>% 
-    filter(substr(.$kod,1,2) == region,substr(.$kod,5,5) == "R") 
+    filter(substr(.$kod,1,2) == region,substr(.$kod,5,5) == "R") %>% 
+      .$kod
   
   return(retur)
 }
