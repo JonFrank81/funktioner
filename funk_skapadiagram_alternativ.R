@@ -1,17 +1,42 @@
 
-skapa_linjediagram_ny(df <- KPI_df %>% filter(ar>"2021"),
+# skapa_linjediagram_ny(df <- KPI_df %>% filter(ar>"2021"),
+#                       linje_typ = "solid",
+#                       X_rotera_text =45,
+#                       x_axel_namn = "",
+#                       valt_tema = "void",
+#                       titel= "Inflation",
+#                       titel_justering = 0.5,
+#                       plotly_diagram = TRUE)
+
+#distinctColorPalette(25)
+
+hej = ggplot(data=nettooms %>% filter(ar_stod == "2017",År%in%as.character(2018:2022)),
+       aes(x=År, y=value, colour=`Företagsnamn`)) +
+  ggtitle("Antal anställda")+
+    geom_line()+ scale_color_manual(values = distinctColorPalette(25))+ guides(color=guide_legend(ncol =1))+
+      labs(y = "Nettoomsättning", x = "År")+
+          theme(plot.title = element_text(hjust = 0.5))
+
+ggsave(paste0(output_mapp,filnamn))
+
+skapa_linjediagram_ny(df <-  anstallda %>%
+                        filter(ar_stod == "2017",År%in%c(2014:2022),!(is.na(value))) %>% 
+                          mutate(value = as.numeric(value)),
                       linje_typ = "solid",
+                      x_variabel = "År", 
+                      y_variabel = "value",
+                      x_variabel_grupp ="Företagsnamn",
                       X_rotera_text =45,
                       x_axel_namn = "",
-                      valt_tema = "void",
                       titel= "Inflation",
                       titel_justering = 0.5,
-                      plotly_diagram = TRUE)
+                      linje_farg =distinctColorPalette(25))
 
 
 skapa_linjediagram_ny <- function(df = data.frame(),
                                   x_variabel = "Period",
                                   y_variabel = "KPIF,.månadsförändring,.1987=100",
+                                  x_variabel_grupp = 1,
                                   linje_typ = "solid", # Som standard. Övriga val: blank,dashed,dotted,dotdash,longdash,twodash,
                                   linje_farg = c("red"),
                                   bakgrund_farg = "#efefef",
@@ -81,7 +106,7 @@ skapa_linjediagram_ny <- function(df = data.frame(),
   #"#efefef"
   
   figur <- ggplot(df,aes({{x_var}},{{y_var}}))+
-    geom_line(group=1,linetype=linje_typ,color = linje_farg)+
+    geom_line(group=1,linetype=x_variabel_grupp,color = linje_farg)+
     ggtitle(titel)+
     theme_set(tema)+
     theme(plot.title = element_text(hjust = titel_justering),

@@ -132,6 +132,11 @@ hamta_data_TS <- function (returnera_lista = FALSE,
 hamta_data_regso <- function(region = "20",
                                url = ""){
   
+  if (!require("pacman")) install.packages("pacman")
+  p_load(pxweb,
+         openxlsx,
+         tidyverse)
+  
   source("G:/skript/func/func_API.R", encoding = "utf-8", echo = FALSE)
   
   retur <- pxvardelist(url,"Region") %>% 
